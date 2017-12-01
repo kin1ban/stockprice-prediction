@@ -1,0 +1,94 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="/static/typeahead/jquery.typeahead.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/static/typeahead/jquery.typeahead.js"></script>
+    <style>
+        .dropdown-menu > li.active * {
+            background-color: lightBlue!important; 
+         }
+    </style>
+    <script type="text/javascript" >
+        $('#submitBtn').on('click', function(){
+            $.ajax({
+                url: $(this).parent('form').attr('action'),
+                type: 'post',
+                data: $(this).parent('form').serialize()
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+
+    <h1>StockCode Demo</h1>
+
+    <h2>&lt;株式コード&gt;</h2>
+    <form>
+        <div class="typeahead__container">
+            <div class="typeahead__field">
+
+            <span class="typeahead__query">
+                <input class="js-typeahead-input"
+                       name="stockcd"
+                       type="search"
+                       autocomplete="off"/>
+            </span>
+            <span class="typeahead__button">
+                <button type="submit" id="submitBtn">
+                    <span class="typeahead__search-icon"></span>
+                </button>
+            </span>
+
+            </div>
+        </div>
+    </form>
+
+
+    <script>
+
+        var data = {
+            stockinfo: ["3915    テラスカイ", "3902    MDV", "3906    ALBERT", "3908    コラボス", "3916    DIT", "3918    PCIHD",
+                "3914    JIG-SAW", "3913    sMed1o", "3911    Aiming", "8789    フィンテックグローバル"]
+        };
+
+        $('.js-typeahead-input').typeahead({
+            minLength: 1,
+            order: "asc",
+            group: true,
+            maxItemPerGroup: 3,
+            hint: false,
+            highlight: true,
+            offset:false,
+            //dropdownFilter: "All",
+            emptyTemplate: "no result for {{query}}",
+            source: {
+                data: data.stockinfo
+            },
+            highlighter:function(item) {
+                return "==>" + item + "<==";
+            },
+            updater: function(item) {
+                console.log("'" + item + "' selected.");
+                return item;
+            },
+            debug: true
+        }
+        );
+    </script>
+
+</div>
+
+</body>
+</html>
