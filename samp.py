@@ -1,6 +1,8 @@
 #Flask などの必要なライブラリをインポートする
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response,json
 import numpy as np
+import comm.myfunc as mf
+#from comm.stock import StockModel
 
 # 自身の名称を app という名前でインスタンス化する
 app = Flask(__name__)
@@ -41,11 +43,13 @@ def posttwo():
 
 @app.route('/test/stock')
 def test_stock():
+    #StockModel.doAction()
     return render_template('Endemo-test.html');
 
-#@app.route('/test/testone')
-#def test_template():
-#    return render_template('testone.html');
+@app.route('/test/stockcdGet', methods=['POST'])
+def getStockcd():
+    stockcd =  request.form['stockcd'];
+    return json.dumps({'status':'OK','stockcd':stockcd});
 
 if __name__ == '__main__':
     app.debug = True # デバッグモード有効化
